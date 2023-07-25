@@ -1,9 +1,15 @@
 body{
+    font-family: 'REM', sans-serif;
     font-size: 1.3 rem;
     background: pink;
 }
 input[type='submit'] {
     margin: 10px 0px;
+}
+h1{
+    text-align: center;
+    font-weight: 600;
+    padding: 10px;
 }
 #Error{
     color: red;
@@ -11,6 +17,11 @@ input[type='submit'] {
 #Success{
     color: blue;
 }
+.boxy{
+    max-width: 60vw;
+    display: flexbox;
+}
+
 a{
     text-decoration: none;
     color: blueviolet;
