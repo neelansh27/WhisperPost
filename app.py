@@ -42,7 +42,8 @@ class posts(db.Model):
     title = db.Column(db.String(40), nullable=False)
     content = db.Column(db.String(1000), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(
-        timezone('Asia/Kolkata')).strftime("%Y-%m-%d %I:%M:%S%p %Z%z"))
+        timezone('Asia/Kolkata')))
+# .strftime("%Y-%m-%d %I:%M:%S%p %Z%z") format to display
 
     def __repr__(self):
         return f'Author:{self.author}\n \
@@ -124,5 +125,19 @@ def home():
         return redirect(url_for('login'))
     if request.method=='GET':
         return render_template('home.html', current_user=current_user)
+    if request.method=='POST':
+        title=request.form.get('title')
+        content=request.form.get('content').strip()
+        author=current_user.username
+        time=datetime.now(timezone('Asia/Kolkata'))
+        post= posts(title=title,content=content,author=author,created_at=time)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('success'))
+
+@app.route('/success')
+@login_required
+def success():
+    return redirect(url_for('home'))
 
 
