@@ -5,11 +5,13 @@
 {% block content %} 
 <h1>Login</h1>
 <hr>
-{% if error %}
-<p class='text-center' id="Error"> <b>Invalid:</b> {{ error }}</p>
-{% endif %}
 <form method="post">
     <div class="container">
+        {% if error %}
+        <div class="alert alert-danger " role="alert">
+            <b>Invalid:</b> {{ error }}
+        </div>
+        {% endif %}
         <div class="input-group m-3">
            <span class="input-group-text" id="basic-addon1">@</span>
         <input class='form-control ' type="email" name='email' required placeholder='email' autocomplete="off">

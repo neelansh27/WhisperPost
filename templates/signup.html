@@ -1,24 +1,38 @@
 {% extends "base.html" %}
 {% block title %} Sign-Up  {% endblock %}
 {% block content %} 
+
 <h1>Register</h1>
-{% if msg %}
-    <p id='Success'>{{ msg }}</p>
-{% endif %}
-{% if error %}
-    <p id='Error'>Error: {{ error }}</p>
-{% endif %}
+<hr>
 <form action='/sign-up' method="post">
-    <div>
-        <input placeholder="email" type="email" name='email' required autocomplete="off">
+    <div class="container">
+    {% if msg %}
+    <div class="alert alert-success " role="alert">
+        <b>{{ msg }}</b>
     </div>
-    <div>
-        <input type="text" placeholder='A cool Username' name='username' required autocomplete="off">
+    {% endif %}
+    {% if error %}
+    <div class="alert alert-danger " role='alert'>
+        <b>Invalid:</b> {{ error }}
     </div>
-    <div>
-        <input type="password" minlength=8 maxlength=12 name='password' placeholder="password" required autocomplete="off">
+    {% endif %}
+    <div class='input-group mb-3'>
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input placeholder="email" type="email" class='form-control' name='email' required autocomplete="off">
     </div>
-    <input type="submit" name="submission" value="Get Your Ticket to heaven" />
-    <div><a href="{{ url_for('index') }}">Already a user? Login here</a></div>
+    <div class='input-group mb-3'>
+        <span class="input-group-text" id="basic-addon1">#</span>
+        <input type="text" class='form-control' placeholder='A cool Username' name='username' required autocomplete="off">
+    </div>
+    <div class='input-group'>
+        <span class="input-group-text" id='basic-addon1'>*</span>
+        <input class='form-control' type="password" minlength=8 maxlength=12 name='password' placeholder="password" required autocomplete="off">
+    </div>
+    <div class="row mx-4">
+        <input class='btn btn-primary' type="submit" name="submission" value="Get Your Ticket to heaven" />
+       <div class="text-center"><a href="{{ url_for('login') }}">Already a user? Login here</a></div>
+    </div>
+
+</div>
 </form>
 {% endblock %}
