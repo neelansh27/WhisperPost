@@ -2,3 +2,16 @@ body{
     font-size: 1.3 rem;
     background: pink;
 }
+input[type='submit'] {
+    margin: 10px 0px;
+}
+#Error{
+    color: red;
+}
+#Success{
+    color: blue;
+}
+a{
+    text-decoration: none;
+    color: blueviolet;
+}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} Sign-Up  {% endblock %}
+{% block content %} 
+<h1>Register</h1>
+{% if msg %}
+    <p id='Success'>{{ msg }}</p>
+{% endif %}
+{% if error %}
+    <p id='Error'>Error: {{ error }}</p>
+{% endif %}
+<form action='/sign-up' method="post">
+    <div>
+        <input placeholder="email" type="email" name='email' required autocomplete="off">
+    </div>
+    <div>
+        <input type="text" placeholder='A cool Username' name='username' required autocomplete="off">
+    </div>
+    <div>
+        <input type="password" minlength=8 maxlength=12 name='password' placeholder="password" required autocomplete="off">
+    </div>
+    <input type="submit" name="submission" value="Get Your Ticket to heaven" />
+    <div><a href="{{ url_for('index') }}">Already a user? Login here</a></div>
+</form>
+{% endblock %}

@@ -1,5 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %} whisperPost {% endblock %}
+{% block title %} WhisperPost {% endblock %}
  
-{% block content %} This is testing {% endblock %}
+{% block content %} 
+<h1>Login</h1>
+{% if error %}
+<p id="Error"> <b>Invalid:</b> {{ error }}</p>
+{% endif %}
+<form method="post">
+    <div>
+        <span>email</span>
+        <input type="email" name='email' required autocomplete="off">
+    </div>
+    <div>
+        <span>username</span>
+        <input type="text" name='username' required autocomplete="off">
+    </div>
+    <div>
+        <span>password</span>
+        <input type="password"  name='password' required autocomplete="off">
+    </div>
+    <input type="submit" name="submission" value="Take me to heaven" />
+    <div><a href="{{ url_for('signup') }}"> New here? Register  </a></div>
+</form>
+{% endblock %}
