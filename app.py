@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt, bcrypt
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user, UserMixin
 import os
+from pytz import timezone
+from datetime import datetime
 
 from sqlalchemy.engine import url
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -31,13 +33,34 @@ class data(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
 
     def __repr__(self):
-        return f'Name:{self.username}'
+        return f'Email:{self.email}'
+
+
+class posts(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    author = db.Column(db.String(40), nullable=False)
+    title = db.Column(db.String(40), nullable=False)
+    content = db.Column(db.String(1000), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now(
+        timezone('Asia/Kolkata')).strftime("%Y-%m-%d %I:%M:%S%p %Z%z"))
+    def  __repr__(self):
+        return f'Author:{self.author}\n \
+                 title:{self.title}\n \
+                 content:{self.content}\n \
+                 time:{self.created_at}\n'
+
 
 # FOLLOWING CODE CAN BE RUN ONCE TO CREATE THE DATABASE
 # if __name__ == "__main__":
 #     with app.app_context():
 #         db.create_all()
 
+#This piece of code here is very important and big shoutout to the stack overflow guy who gave this solution: https://stackoverflow.com/questions/20652784/flask-back-button-returns-to-session-even-after-logout
+#It prevents browser cache and prevent user from going back and forth between login and home page
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response 
 
 @app.route('/')  # redirecting root to a different page
 def re():
@@ -47,7 +70,7 @@ def re():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('success'))
+        return redirect('home')
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get('password')
@@ -56,7 +79,7 @@ def login():
             return render_template('login.html', error='User does not exists')
         if bcrypt.check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('success'))
+            return redirect(url_for('home'))
         else:
             return render_template('login.html', error='Incorrect password')
     return render_template("login.html")
@@ -85,14 +108,15 @@ def signup():
     return render_template("signup.html")
 
 
-@app.route('/success')
-@login_required
-def success():
-    return render_template('success.html', user=current_user)
-
-
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    return redirect(url_for('login'))
+
+@app.route('/home')
+@login_required
+def home():
+    if current_user.is_authenticated:
+        return render_template('home.html',current_user=current_user)
     return redirect(url_for('login'))
