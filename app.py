@@ -43,7 +43,8 @@ class posts(db.Model):
     content = db.Column(db.String(1000), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(
         timezone('Asia/Kolkata')).strftime("%Y-%m-%d %I:%M:%S%p %Z%z"))
-    def  __repr__(self):
+
+    def __repr__(self):
         return f'Author:{self.author}\n \
                  title:{self.title}\n \
                  content:{self.content}\n \
@@ -55,12 +56,13 @@ class posts(db.Model):
 #     with app.app_context():
 #         db.create_all()
 
-#This piece of code here is very important and big shoutout to the stack overflow guy who gave this solution: https://stackoverflow.com/questions/20652784/flask-back-button-returns-to-session-even-after-logout
-#It prevents browser cache and prevent user from going back and forth between login and home page
+# This piece of code here is very important and big shoutout to the stack overflow guy who gave this solution: https://stackoverflow.com/questions/20652784/flask-back-button-returns-to-session-even-after-logout
+# It prevents browser cache and prevent user from going back and forth between login and home page
 @app.after_request
 def after_request(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    return response 
+    return response
+
 
 @app.route('/')  # redirecting root to a different page
 def re():
@@ -114,9 +116,13 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/home')
+
+@app.route('/home',methods=['GET','POST'])
 @login_required
 def home():
-    if current_user.is_authenticated:
-        return render_template('home.html',current_user=current_user)
-    return redirect(url_for('login'))
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    if request.method=='GET':
+        return render_template('home.html', current_user=current_user)
+
+

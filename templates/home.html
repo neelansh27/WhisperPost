@@ -1,0 +1,29 @@
+{% extends 'base2.html' %}
+{% block title %}Home{% endblock %}
+
+{%block content %}
+{{ super() }}
+<div id="postbox">
+    <form method='post'>
+    <div class='container'>
+    <input type="text" class='form-control my-4' id='title' placeholder='Title' name='title'>
+        <textarea  class='form-control  ' placeholder='write your thoughts here' id="content" name="content" ></textarea>
+    </div>
+    <div class='row mx-4 my-4'><input type="submit" class='postbtn btn btn-primary' value='Post :)'/></div>
+    </form>
+</div>
+<script>
+ create=document.getElementsByClassName('create')[0]
+ postbox=document.getElementById('postbox')
+ create.addEventListener('click',()=>{
+     console.log(postbox.style.display)
+     if (postbox.style.display === 'none' || postbox.style.display ==='') {
+     console.log("evnt a")
+        postbox.style.display = 'block';
+    } else {
+     console.log("evnt b")
+        postbox.style.display = 'none';
+    }
+ })
+</script>
+{% endblock %}
