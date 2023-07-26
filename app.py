@@ -54,9 +54,9 @@ class posts(db.Model):
 
 
 # FOLLOWING CODE CAN BE RUN ONCE TO CREATE THE DATABASE
-# if __name__ == "__main__":
-#     with app.app_context():
-#         db.create_all()
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
 
 # This piece of code here is very important and big shoutout to the stack overflow guy who gave this solution: https://stackoverflow.com/questions/20652784/flask-back-button-returns-to-session-even-after-logout
 # It prevents browser cache and prevent user from going back and forth between login and home page
