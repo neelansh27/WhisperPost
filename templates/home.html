@@ -1,21 +1,64 @@
 {% extends 'base2.html' %}
 {% block title %}Home{% endblock %}
-
-{%block content %}
-{{ super() }}
-<div id="postbox">
-    <form method='post' action='/home'>
-    <div class='container'>
-    <input type="text" class='form-control my-4' id='title' placeholder='Title' name='title'>
-        <textarea  class='form-control  ' placeholder='write your thoughts here' id="content" name="content" ></textarea>
+{% block content %}
+    {{ super() }}
+    <div class="container-fluid ">
+        {% for post in posts.items %}
+            <div class="card my-3 mx-auto" style="width: 38rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{ post.title }}
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ post.author }}</h6>
+                    <p class="card-text">{{ post.content }}</p>
+                    <p class='card-text'>{{ post.created_at.strftime("%d-%h-%Y %H:%M %Z") }}</p>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    <div class='row mx-4 my-4'><input type="submit" class='postbtn btn btn-primary' value='Post :)'/></div>
-    </form>
-</div>
-<script>
+    <div class='d-flex justify-content-center mb-4'>
+        <span >
+        {% for page_num in posts.iter_pages(left_edge=0,left_current=3, right_current=3, right_edge=0) %}
+            {# right current is 2 because it includes the current page also #}
+            {% if page_num %}
+                {% if page_num == posts.page %}
+                <a class='btn btn-info' href="{{ url_for('home' ,page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class='btn btn-outline-info'
+                       href="{{ url_for('home' ,page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </span>
+    </div>
+    <div id="postbox">
+        <form method='post' action='/home'>
+            <div class='container'>
+                <input type="text"
+                       class='form-control my-4'
+                       id='title'
+                       placeholder='Title'
+                       name='title'
+                       autocomplete='off'
+                       required />
+                <textarea class='form-control  '
+                          placeholder='write your thoughts here'
+                          id="content"
+                          name="content"
+                          required></textarea>
+            </div>
+            <div class='row mx-4 mt-4 mb-1'>
+                <input type="submit" class='postbtn btn btn-primary' value='Post :)' />
+            </div>
+            <div class='row mx-4 mb-4'>
+                <button onclick='{toggle()}' class='postbtn btn btn-danger' value='Discard'>Close</button>
+            </div>
+        </form>
+    </div>
+    <script>
  create=document.getElementsByClassName('create')[0]
  postbox=document.getElementById('postbox')
- create.addEventListener('click',()=>{
+ toggle = ()=>{
      console.log(postbox.style.display)
      if (postbox.style.display === 'none' || postbox.style.display ==='') {
      console.log("evnt a")
@@ -24,6 +67,8 @@
      console.log("evnt b")
         postbox.style.display = 'none';
     }
- })
-</script>
+ }
+
+ create.addEventListener('click', toggle)
+    </script>
 {% endblock %}

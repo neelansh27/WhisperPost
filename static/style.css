@@ -32,14 +32,28 @@ a {
     position: absolute;
     float: center;
     box-shadow: 10px 10px 20px grey;
-    top: 10vh;
-    left: 15vw;
-    width: 70vw;
-    height: 80vh;
+    top: 5vh;
+    left: 10vw;
+    width: 80vw;
+    height: 90vh;
     border-radius: 10px;
+    z-index: 10;
 
 }
 .postbtn{
     background: #9ac7f5;
     border: 1px #9ac7f5;
+}
+footer{
+    width: 100vw;
+    margin-top: auto;
+    padding: 10px;
+}
+.whisper{
+    color: #0DCAF0;
+    font-size: 2rem;
+    font-weight: 900;
+}
+#hearts{
+    color: red;
 }
